@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>WebSocket Test</title>
+</head>
+<body>
+    <h1>WebSocket Test</h1>
+    <button onclick="connect()">Connect</button>
+    <button onclick="sendMessage()">Send Message</button>
+    <p id="messages"></p>
+
+    <script>
+        let socket;
+
+        function connect() {
+            socket = new WebSocket("ws://localhost:8080/api/v1/ws");
+
+            socket.onopen = function() {
+                console.log("Connected");
+                document.getElementById("messages").innerText = "Connected\n";
+            };
+
+            socket.onmessage = function(event) {
+                console.log("Received: " + event.data);
+                document.getElementById("messages").innerText += "Received: " + event.data + "\n";
+            };
+
+            socket.onclose = function() {
+                console.log("Disconnected");
+                document.getElementById("messages").innerText += "Disconnected\n";
+            };
+        }
+
+        function sendMessage() {
+            const message = "Hello, WebSocket!";
+            console.log("Sending: " + message);
+            socket.send(message);
+        }
+    </script>
+</body>
+</html>

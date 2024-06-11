@@ -1,0 +1,100 @@
+CREATE TABLE users (
+    u_id INT PRIMARY KEY AUTO_INCREMENT COMMENT '用户ID',
+    u_tel VARCHAR(20) NOT NULL COMMENT '手机号',
+    u_role INT NOT NULL COMMENT '角色',
+    u_pwd VARCHAR(50) NOT NULL COMMENT '密码',
+    u_lock INT NOT NULL DEFAULT 0 COMMENT '是否禁用'
+);
+
+CREATE TABLE vip (
+    v_id INT PRIMARY KEY AUTO_INCREMENT COMMENT '用户id',
+    u_tel VARCHAR(20) NOT NULL COMMENT '用户id',
+    v_name VARCHAR(50) NOT NULL COMMENT '姓名',
+    v_birth DATE COMMENT '生日',
+    v_sex INT COMMENT '性别',
+    v_startTime DATE DEFAULT '1970-01-01' COMMENT '开始时间',
+    v_endTime DATE DEFAULT NULL COMMENT '结束时间'
+);
+ALTER TABLE vip ADD CONSTRAINT fk_users FOREIGN KEY (u_tel) REFERENCES users(u_tel);
+
+CREATE TABLE course (
+    c_id INT PRIMARY KEY AUTO_INCREMENT COMMENT '课程id',
+    c_name VARCHAR(20) NOT NULL COMMENT '课程名',
+    c_strong INT NOT NULL CHECK (c_strong >= 1 AND c_strong <= 5) COMMENT '课程强度（取值1-5）',
+    c_info VARCHAR(200) COMMENT '课程描述',
+    c_image VARCHAR(100) COMMENT '课程图片'
+);
+
+CREATE TABLE teacher (
+    t_id INT PRIMARY KEY AUTO_INCREMENT NOT NULL COMMENT '教练ID',
+    t_name VARCHAR(20) NOT NULL COMMENT '姓名（用户登录用）',
+    u_id INT NOT NULL COMMENT '用户ID（标识用户角色）',
+    t_birth DATE NOT NULL COMMENT '生日',
+    t_sex INT NOT NULL COMMENT '性别（0：男；1：女）',
+    t_img VARCHAR(100) COMMENT '图片',
+    t_info VARCHAR(200) COMMENT '描述',
+    t_price INT NOT NULL COMMENT '价格'
+);
+
+CREATE TABLE manager (
+    m_id INT PRIMARY KEY AUTO_INCREMENT NOT NULL COMMENT '管理员ID',
+    u_id INT NOT NULL COMMENT '账户ID',
+    m_role INT NOT NULL DEFAULT 0 COMMENT '管理员角色'
+);
+
+CREATE TABLE rate (
+    r_id INT PRIMARY KEY AUTO_INCREMENT NOT NULL COMMENT '评分ID',
+    t_id INT NOT NULL COMMENT '教练ID',
+    u_id INT NOT NULL COMMENT '账户ID',
+    r_rate INT NOT NULL CHECK (r_rate BETWEEN 1 AND 5) COMMENT '评分',
+    r_msg VARCHAR(200) COMMENT '评价内容',
+    r_time DATE COMMENT '评价时间'
+);
+CREATE TABLE place (
+    p_id INT PRIMARY KEY AUTO_INCREMENT NOT NULL COMMENT '场地ID',
+    p_name VARCHAR(20) NOT NULL COMMENT '场地名',
+    p_img VARCHAR(100) COMMENT '场地图片',
+    p_info VARCHAR(200) NOT NULL COMMENT '场地描述',
+    p_price INT NOT NULL COMMENT '场地价格'
+);
+CREATE TABLE couresPlan (
+    cp_id INT PRIMARY KEY AUTO_INCREMENT NOT NULL COMMENT '安排ID',
+    t_id INT NOT NULL COMMENT '教练ID',
+    c_id INT NOT NULL COMMENT '课程ID',
+    p_id INT NOT NULL COMMENT '场地ID',
+    cp_time DATE NOT NULL COMMENT '上课时间',
+    cp_max INT NOT NULL COMMENT '上限人数'
+);
+
+CREATE TABLE orderCourse (
+    oc_id INT PRIMARY KEY AUTO_INCREMENT NOT NULL COMMENT '课程预约ID',
+    cp_id INT NOT NULL COMMENT '课程安排ID',
+    u_id INT NOT NULL COMMENT '账户ID'
+);
+CREATE TABLE orderTeacher (
+    ot_id INT PRIMARY KEY AUTO_INCREMENT NOT NULL COMMENT '教练预约ID',
+    t_id INT NOT NULL COMMENT '教练ID',
+    u_id INT NOT NULL COMMENT '账户ID）',
+    ot_time DATE NOT NULL COMMENT '预约时间'
+);
+CREATE TABLE orderPlace (
+    op_id INT PRIMARY KEY AUTO_INCREMENT NOT NULL COMMENT '场地预约ID',
+    p_id INT NOT NULL COMMENT '场地ID',
+    u_id INT NOT NULL COMMENT '用户ID',
+    op_time DATE NOT NULL COMMENT '预约时间'
+);
+
+CREATE TABLE notify (
+    n_id INT PRIMARY KEY AUTO_INCREMENT NOT NULL COMMENT '公告ID',
+    u_id INT NOT NULL COMMENT '账户ID',
+    n_msg VARCHAR(200) NOT NULL COMMENT '公告内容',
+    n_time DATE NOT NULL COMMENT '发布时间',
+    n_img VARCHAR(50) COMMENT '公告图片'
+);
+
+CREATE TABLE suggest (
+    s_id INT PRIMARY KEY AUTO_INCREMENT NOT NULL COMMENT '意见ID',
+    u_id INT NOT NULL COMMENT '账户ID',
+    s_msg VARCHAR(200) NOT NULL COMMENT '意见内容',
+    s_time DATE NOT NULL COMMENT '反馈时间'
+);

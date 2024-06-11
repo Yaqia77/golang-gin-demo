@@ -1,0 +1,19 @@
+#schema 是GraphQL schema文件路径
+schema:
+  - graph/schema.graphql
+
+#exec是生成的代码文件路径和包名
+exec:
+  filename: graph/generated/generated.go
+  package: generated
+
+#model是生成的模型文件路径和包名
+model:
+  filename: graph/model/models_gen.go
+  package: model
+  
+#resolver是生成的resolver文件路径和包名
+resolver:
+  layout: follow-schema
+  dir: graph
+  package: graph

@@ -1,0 +1,18 @@
+syntax = "proto3";
+
+package test;
+
+option go_package = "proto";
+
+service TestService {
+  rpc SayHello (HelloRequest) returns (HelloResponse);
+}
+
+message HelloRequest {
+  string name = 1;
+}
+
+message HelloResponse {
+  string message = 1;
+}
+//生成grpc代码 protoc --go_out=. --go-grpc_out=. proto/test.proto
