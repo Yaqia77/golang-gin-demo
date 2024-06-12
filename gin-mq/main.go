@@ -10,6 +10,7 @@ import (
 	"github.com/streadway/amqp"
 )
 
+// RabbitMQ 消息队列的使用
 func main() {
 	router := gin.Default()
 

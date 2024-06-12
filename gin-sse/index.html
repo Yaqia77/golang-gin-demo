@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Gin SSE Example</title>
+</head>
+<body>
+    <h1>Server-Sent Events</h1>
+    <div id="events"></div>
+
+    <script>
+        if (typeof(EventSource) !== "undefined") {
+            var source = new EventSource("/events");
+            console.log("EventSource is supported:", source);
+            source.onmessage = function(event) {
+                var eventDiv = document.getElementById("events");
+                var newEvent = document.createElement("div");
+                newEvent.textContent = "Event received at: " + event.data;
+                eventDiv.appendChild(newEvent);
+            };
+
+            source.onerror = function(event) {
+                console.error("EventSource failed: ", event);
+            };
+        } else {
+            document.getElementById("events").textContent = "Sorry, your browser does not support server-sent events...";
+        }
+    </script>
+</body>
+</html>
