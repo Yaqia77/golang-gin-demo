@@ -1,15 +1,21 @@
 package config
 
 import (
+	"context"
 	"fmt"
 	"gin-blogs/models"
 	"log"
 
+	"github.com/go-redis/redis/v8"
 	"gorm.io/driver/mysql"
 	"gorm.io/gorm"
 )
 
-var DB *gorm.DB
+var (
+	DB  *gorm.DB
+	RDB *redis.Client
+	Ctx = context.Background()
+)
 
 func InitDB() {
 	// connect to database here
@@ -32,4 +38,18 @@ func InitDB() {
 
 	models.AutoMigrateBlogTable(DB)
 
+	// Redis 连接
+	RDB = redis.NewClient(&redis.Options{
+		Addr:     "localhost:6379", // use default Addr
+		Password: "",               // no password set
+		DB:       0,                // use default DB
+	})
+
+	// 测试 Redis 连接
+	_, err = RDB.Ping(Ctx).Result()
+	if err != nil {
+		log.Fatalf("Could not connect to Redis: %v", err)
+	}
+
+	fmt.Println("Connected to Redis successfully")
 }
