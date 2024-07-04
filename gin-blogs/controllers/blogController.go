@@ -11,6 +11,11 @@ import (
 	"github.com/gin-gonic/gin"
 )
 
+// @Summary 获取所有博客
+// @Description 获取所有博客
+// @Produce json
+// @Success 200 {array} models.Blog
+// @Router /api/blog [get]
 func GetAllBlogs(c *gin.Context) {
 	blog, err := service.GetAllBlogs()
 	if err != nil {
@@ -20,6 +25,13 @@ func GetAllBlogs(c *gin.Context) {
 	utils.SuccessResponse(c, blog)
 }
 
+// GetBlogById godoc
+// @Summary Get a blog by ID
+// @Description Get a blog by ID
+// @Produce json
+// @Param id path int true "Blog ID"
+// @Success 200 {object} models.Blog
+// @Router /api/blog/{id} [get]
 func GetBlogById(c *gin.Context) {
 	id := c.Param("id")
 	intID, err := strconv.Atoi(id)
@@ -35,6 +47,13 @@ func GetBlogById(c *gin.Context) {
 	utils.SuccessResponse(c, blog)
 }
 
+// CreateBlog godoc
+// @Summary Create a blog
+// @Description Create a new blog
+// @Produce json
+// @Param blog body models.Blog true "Blog object"
+// @Success 201 {object} models.Blog
+// @Router /api/blog [post]
 func CreateBlog(c *gin.Context) {
 	var blog models.Blog
 	if err := c.ShouldBindJSON(&blog); err != nil {
@@ -52,6 +71,14 @@ func CreateBlog(c *gin.Context) {
 
 }
 
+// UpdateBlog godoc
+// @Summary Update a blog
+// @Description Update an existing blog
+// @Produce json
+// @Param id path int true "Blog ID"
+// @Param blog body models.Blog true "Blog object"
+// @Success 200 {object} models.Blog
+// @Router /api/blog/{id} [put]
 func UpdateBlog(c *gin.Context) {
 	var blog models.Blog
 	id := c.Param("id")
@@ -75,6 +102,13 @@ func UpdateBlog(c *gin.Context) {
 
 }
 
+// DeleteBlog godoc
+// @Summary Delete a blog
+// @Description Delete a blog by ID
+// @Produce json
+// @Param id path int true "Blog ID"
+// @Success 200
+// @Router /api/blog/{id} [delete]
 func DeleteBlog(c *gin.Context) {
 	id := c.Param("id")
 	intID, err := strconv.Atoi(id)

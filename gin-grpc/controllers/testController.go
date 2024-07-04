@@ -31,7 +31,7 @@ func GRPCGateway(c *gin.Context) {
 	//关闭连接
 	defer conn.Close()
 	// 调用gRPC服务
-	//NewTestServiceClient是由proto文件生成的客户端
+	//NewTestServiceClient是由proto文件生成的客户端SDK
 	client := proto.NewTestServiceClient(conn)
 	//调用SayHello方法
 	//context.Background()是上下文，用于控制连接的生命周期

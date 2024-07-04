@@ -10,6 +10,16 @@ import (
 	"github.com/gin-gonic/gin"
 )
 
+// @Summary Register a new user
+// @Description Register a new user
+// @Tags User
+// @Accept  json
+// @Produce  json
+// @Param   user body models.User true "User"
+// @Success 201 {object} models.User
+// @Failure 400 {object} gin.H
+// @Failure 500 {object} gin.H
+// @Router /register [post]
 func Register(c *gin.Context) {
 	var user models.User
 	fmt.Println("111111111", user)
@@ -44,6 +54,13 @@ func Register(c *gin.Context) {
 	utils.SuccessResponse(c, result)
 }
 
+// @Summary Get all blogs
+// @Description Get all blogs
+// @Tags Blog
+// @Produce  json
+// @Success 200 {array} models.Blog
+// @Failure 404 {object} gin.H
+// @Router /blog [get]
 func Login(c *gin.Context) {
 	var user models.User
 
